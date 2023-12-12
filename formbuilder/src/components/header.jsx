@@ -31,9 +31,20 @@ export default function Header() {
            setHide(false)
         }
     }
+
+    //check there is any in going form or not
+    useEffect(async ()=>{
+        let id=localStorage.getItem('formid') || null
+        if(id===null)
+        return
+        let res=await axios.get(`${process.env.REACT_APP_URL}/form?id=${id}`) 
+        setformName(res.data.Form.Title)
+        navigate('/categorize')
+    },[])
     
   return (
-    <div className="p-5 border-radius-10 shadow-md flex justify-between items-flex-start">
+ <div>
+       <div className="p-5 border-radius-10 shadow-md flex justify-between items-flex-start">
         <h1 className="text-left text-3xl cursor-pointer">Form Builder</h1>
         {
             formName===null ? <div>
@@ -84,15 +95,15 @@ export default function Header() {
       {isOpen && (
         <div className="absolute top-10 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <Link to="/categorize" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+            <Link onClick={()=>setIsOpen(!isOpen)} to="/categorize" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
               Categorize
             </Link>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+            <Link onClick={()=>setIsOpen(!isOpen)} to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
             Cloze
-            </a>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+            </Link>
+            <Link onClick={()=>setIsOpen(!isOpen)} to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
             Comprehension
-            </a>
+            </Link>
           </div>
         </div>
       )}
@@ -102,8 +113,13 @@ export default function Header() {
         >Submit</button>
             </>
         }
+        
 
     </div>
+    {
+        formName!== null && <h1 className='text-center text-black-900 text-4xl mt-4'>Form Name: {formName}</h1>
+    }
+ </div>
 
   )
 }

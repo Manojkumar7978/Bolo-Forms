@@ -7,7 +7,7 @@ const categoriesQuestionModel = require('./db/categories.model.js');
 
 const app = express()
 app.use(express.json())
-
+app.use(cors())
 // api used for create a new form in the database
 app.post('/forms', async (req, res) => {
   const { title } = req.body;
@@ -24,6 +24,7 @@ app.post('/forms', async (req, res) => {
     res.send(error)
   }
 });
+
 
 // api used for create categoriy type question with respective form
 app.post('/categoriesquestion', async (req, res) => {
@@ -42,9 +43,14 @@ app.post('/categoriesquestion', async (req, res) => {
 
 // api to get form details and questios by unique form name
 app.get('/form',async (req,res)=>{
-  let {title}=req.body
+  let {title,id}=req.query
   try {
-    let form=await formModel.find({Title:title})
+    let form;
+    if(id){
+      form=await formModel.findById(id)
+    }else{
+      form=await formModel.find({Title:title})
+    }
     let categoriesQuestion=await categoriesQuestionModel.find({
       FormId:id
     })
