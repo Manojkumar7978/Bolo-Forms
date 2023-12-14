@@ -9,6 +9,7 @@ require('dotenv').config()
 const app = express()
 app.use(express.json())
 app.use(cors())
+
 // api used for create a new form in the database
 app.post('/forms', async (req, res) => {
   const { title } = req.body;
@@ -106,8 +107,9 @@ app.patch('/submit',async (req,res)=>{
 
 const PORT = process.env.PORT
 
-
-app.listen(PORT, () => {
-  main();
-  console.log(`App listen to ${PORT}`)
+main()
+.then(()=>{
+  app.listen(PORT, () => {
+    console.log(`App listen to ${PORT}`)
+  })
 })
