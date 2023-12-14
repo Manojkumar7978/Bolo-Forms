@@ -1,6 +1,7 @@
 import React, {  useState } from 'react'
 import axios from 'axios'
 import {  useNavigate } from 'react-router-dom'
+import { Home } from './home'
 
 
 export default function Header() {
@@ -37,13 +38,18 @@ export default function Header() {
    await axios.delete(`${process.env.REACT_APP_URL}/form/${id}`)
     setformName(null)
     setInput(null)
+    localStorage.removeItem('formid')
     navigate('/')
  }
     
   return (
  <div>
        <div className="p-5 border-radius-10 shadow-md flex justify-between items-flex-start">
-        <h1 className="text-left text-black font-bold text-3xl cursor-pointer">Form Builder</h1>
+        <h1 className="text-left text-black font-bold text-3xl cursor-pointer"
+        onClick={()=>{
+            navigate('/')
+        }}
+        >Form Builder</h1>
         {
             formName===null ? <div>
             <div className='flex gap-5 items-center'>
@@ -80,9 +86,7 @@ export default function Header() {
         
 
     </div>
-    {
-        formName!== null && <h1 className='text-center text-black-900 text-4xl mt-4 text-blue-500'>Form Name: {formName}</h1>
-    }
+
  </div>
 
   )

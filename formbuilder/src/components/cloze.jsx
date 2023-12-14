@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Image } from "./question.image";
 
 function Cloze({ el, questions, setQuestions, ind }) {
 
-    const [option, setOption] = useState([])
+    const [option, setOption] = useState(el.options)
 
     // for create preview 
     let createPreview = (string) => {
@@ -16,12 +17,12 @@ function Cloze({ el, questions, setQuestions, ind }) {
         if (matches) {
             const words = matches.map(match => match.replace(/\*/g, ''));
             setOption([...words])
-            let obj={
+            let obj = {
                 ...el,
-                options:[...words]
+                options: [...words]
             }
-            let data=[...questions]
-            data[ind]=obj
+            let data = [...questions]
+            data[ind] = obj
             setQuestions([...data])
         } else {
             setOption([])
@@ -40,14 +41,19 @@ function Cloze({ el, questions, setQuestions, ind }) {
     }
     return (
         <div  >
-            <p className="text-black font-bold  text-md">Question {ind + 1}</p>
+            <div className="flex items-start justify-between">
+                <div>
+                    <p className="text-black font-bold  text-md">Question {ind + 1}</p>
 
-            <p className="text-black font-bold  mt-5 text-md">Question Preview</p>
-            <p className="text-black border rounded-md w-[300px] px-5 py-2 mt-2 text-md">
-                {
-                    createPreview(el.cloze_sentence)
-                }
-            </p>
+                    <p className="text-black font-bold  mt-5 text-md">Question Preview</p>
+                    <p className="text-black border rounded-md w-[300px] px-5 py-2 mt-2 text-md">
+                        {
+                            createPreview(el.cloze_sentence)
+                        }
+                    </p>
+                </div>
+                <Image el={el} ind={ind} questions={questions} setQuestions={setQuestions}/>
+            </div>
             <p className="text-black font-bold  mt-5 text-md">Enter Sentence</p>
             <input
                 type="text"
@@ -77,15 +83,15 @@ function Cloze({ el, questions, setQuestions, ind }) {
             }
             <input
                 type="text"
-                onBlur={(event)=>{
-                    if(!option.includes(event.target.value))
-                    setOption([...option,event.target.value])
-                    let obj={
+                onBlur={(event) => {
+                    if (!option.includes(event.target.value))
+                        setOption([...option, event.target.value])
+                    let obj = {
                         ...el,
-                        options:[...option,event.target.value]
+                        options: [...option, event.target.value]
                     }
-                    let data=[...questions]
-                    data[ind]=obj
+                    let data = [...questions]
+                    data[ind] = obj
                     setQuestions([...data])
                 }}
                 className="border ml-20 mt-5 rounded-md px-3 py-2 w-[300px] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"

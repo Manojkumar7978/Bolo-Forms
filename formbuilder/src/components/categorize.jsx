@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Image } from "./question.image";
 
 
 function Categorize({ el, questions, setQuestions, ind }) {
@@ -127,6 +128,8 @@ const itemBelongsTo=(cat,e,i)=>{
     return (
         <div>
             <p className="text-black font-bold  text-md">Question {ind + 1}</p>
+
+            {/* question title enter here  */}
             <input
                 type="text"
                 onChange={(e) => {
@@ -137,8 +140,9 @@ const itemBelongsTo=(cat,e,i)=>{
                 placeholder="Enter Description for the question"
             />
             <p className="text-black font-bold mt-5 text-md">Categories</p>
-
-            <div className="category-container">
+ {/* category container  */}
+            <div className="flex items-start justify-between">
+                <div className="category-container">
                 {
                     el.categories.map((e, i) => {
                         return <div className="m-2 flex items-center max-w-400" key={e}>
@@ -178,9 +182,15 @@ const itemBelongsTo=(cat,e,i)=>{
                     className="border ml-20 mt-2 rounded-md px-3 py-2 w-[300px] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="Add Category (Optional)"
                 />
+                </div>
+                    <div>
+                        <Image el={el} ind={ind} questions={questions} setQuestions={setQuestions}/>
 
+                    </div>
             </div>
             <p className="text-black font-bold mt-5 text-md">Items</p>
+
+            {/* items conteiner  */}
             <div className="item-container">
             {
                 el.items.map((e, i) => {
@@ -193,7 +203,7 @@ const itemBelongsTo=(cat,e,i)=>{
                         <input
                             type="text"
                             defaultValue={e.item}
-                            onBlur={(event, e, i) => {
+                            onBlur={(event) => {
                                 changeItemChange(event, e, i)
                             }}
                             className="border mt-2 sm:mr-5 rounded-md px-3 w-full sm:w-90 lg:max-w-300 py-2 relative focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -251,6 +261,7 @@ const itemBelongsTo=(cat,e,i)=>{
                 })
             }
             </div>
+             {/* any extra item input  */}
             <input
                 type="text"
                 onBlur={(event) => {
