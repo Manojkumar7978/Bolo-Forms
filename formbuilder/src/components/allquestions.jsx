@@ -17,6 +17,13 @@ let initialObj = {
   options: [""],
   cloze_sentence:"",
   passage:"",
+  subQuestion:[
+    {
+      title:"",
+      option:["",""],
+      correctAns:""
+    }
+  ]
 }
 
 async function fetchQuestion(){

@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "./question.image";
+import { SubQuestion } from "./subquestions";
 
 
 function Comprehension({ el, questions, setQuestions, ind }) {
@@ -24,8 +25,12 @@ function Comprehension({ el, questions, setQuestions, ind }) {
                 onBlur={(e) => {
                     createPassage(e)
                 }}
+                defaultValue={el.passage}
                 placeholder="Input your story passage..." className="w-full border-2 mb-5 rounded-lg p-2 border-gray focus:border-blue h-[100px] mt-5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
             <Image el={el} ind={ind} questions={questions} setQuestions={setQuestions} />
+
+            <SubQuestion el={el} questions={questions} setQuestions={setQuestions} ind={ind} />
+            
         </div>
     );
 }
