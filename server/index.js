@@ -64,6 +64,18 @@ app.get('/form',async (req,res)=>{
 })
 
 
+app.delete('/form/:id',async (req,res)=>{
+  let {id}=req.params
+  try {
+    let x=await formModel.findByIdAndDelete(id)
+    console.log(x)
+    res.send(x)
+  } catch (error) {
+    res.send(error)
+  }
+
+})
+
 
 
 

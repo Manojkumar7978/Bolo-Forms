@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
-import Categorize from './categorize'
+import Allquestions from './allquestions'
 
 export default function Router() {
   return (
@@ -9,7 +9,7 @@ export default function Router() {
         <Route path='/' element={<h1
         className='text-4xl text-black-900 text-center mt-10'
         >Please create a new form to Start</h1>} />
-        <Route path='/categorize' element={<Categorize/>}/>
+        <Route path='/categorize' element={<Allquestions/>}/>
       </Routes>
     </div>
   )
