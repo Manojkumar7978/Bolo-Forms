@@ -4,7 +4,8 @@ const formSchema = new mongoose.Schema({
     Title:{
         type:String,
         required:true
-    }
+    },
+    Img_Url:String
  })
 
  

@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const main = require('./db/config.js');
 const formModel = require('./db/form.model.js'); // model for new form
-const categoriesQuestionModel = require('./db/categories.model.js');
+const questionModel = require('./db/question.js');
 
 
 const app = express()
@@ -25,50 +25,11 @@ app.post('/forms', async (req, res) => {
   }
 });
 
-
-// api used for create categoriy type question with respective form
-app.post('/categoriesquestion', async (req, res) => {
-  const {questions,id } = req.body
-
-  try {
-    let allquestion = await categoriesQuestionModel.create({
-      FormId: id,
-      Questions:questions
-    })
-    res.send(allquestion)
-  } catch (error) {
-    res.send('Something went wrong')
-  }
-})
-
-// api to get form details and questios by unique form name
-app.get('/form',async (req,res)=>{
-  let {title,id}=req.query
-  try {
-    let form;
-    if(id){
-      form=await formModel.findById(id)
-    }else{
-      form=await formModel.find({Title:title})
-    }
-    let categoriesQuestion=await categoriesQuestionModel.find({
-      FormId:id
-    })
-    res.send({
-      Form:form,
-      categoryQuestion:categoriesQuestion
-    })
-  } catch (error) {
-    res.send(error)
-  }
-})
-
-
+// api to delete form
 app.delete('/form/:id',async (req,res)=>{
   let {id}=req.params
   try {
     let x=await formModel.findByIdAndDelete(id)
-    console.log(x)
     res.send(x)
   } catch (error) {
     res.send(error)
@@ -76,8 +37,70 @@ app.delete('/form/:id',async (req,res)=>{
 
 })
 
+// api to edit form details
+app.patch('/form/:id',async(req,res)=>{
+  let {id}=req.params
+  let {url}=req.body
+ try {
+  await formModel.findByIdAndUpdate(id,{
+    Img_Url:url
+  })
+  res.send('Image Updated Sucessfully')
+ } catch (error) {
+  res.send(error)
+ }
+})
+// api to get all form 
+app.get('/allForm',async (req,res)=>{
+  try {
+      let data=await formModel.find()
+      res.send(data)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+app.get('/allQuestion/:id',async (req,res)=>{
+  let {id}=req.params
+  console.log(id)
+  try {
+    let response=await  questionModel.find({
+      FormId:id
+    })
+    console.log(response)
+    res.send(response)
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 
+// to create questions or update the question of respective form
+
+app.patch('/submit',async (req,res)=>{
+  let {Questions,FormId}=req.body
+  try {
+    const existingForm = await questionModel.findOne({ FormId });
+    if(existingForm) {
+      const updatedForm = await questionModel.findOneAndUpdate(
+        { FormId },
+        { Questions },
+        { new: true }
+      );
+
+      res.send(updatedForm);
+    }else{
+      const response = await questionModel.create({
+        FormId,
+        Questions
+      });
+
+      res.send(response);
+    }
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 
 const PORT = process.env.PORT || 8080
