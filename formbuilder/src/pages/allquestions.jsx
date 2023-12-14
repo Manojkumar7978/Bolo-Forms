@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { TbFileUpload } from "react-icons/tb";
 import { useRef } from 'react';
 import axios from 'axios';
-import Question from './question.jsx';
+import Question from '../components/question.jsx';
 import { useNavigate } from 'react-router';
 
 let initialObj = {
@@ -58,7 +58,7 @@ const navigate=useNavigate()
   // function to final submit
   const finalSubmit=async ()=>{
    
-   let res= await axios.patch(`${process.env.REACT_APP_URL}/submit`,{
+    await axios.patch(`${process.env.REACT_APP_URL}/submit`,{
       FormId:localStorage.getItem('formid'),
       Questions:[...questions]
     })
@@ -94,6 +94,7 @@ const navigate=useNavigate()
         onClick={()=>{
           handleClick()
         }}
+        alt={headerImage}
         src={headerImage} className='w-full h-[100%] object-cover overflow-hidden rounded-lg border border-gray-300' />
         : <h1 className='text-bolder text-2xl text-blue-900 text-center  m-auto flex items-center gap-2 '
         onClick={()=>{

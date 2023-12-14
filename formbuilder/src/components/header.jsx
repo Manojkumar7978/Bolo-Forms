@@ -1,8 +1,6 @@
 import React, {  useState } from 'react'
 import axios from 'axios'
 import {  useNavigate } from 'react-router-dom'
-import { Home } from './home'
-
 
 export default function Header() {
     let[formName,setformName]=useState(null)

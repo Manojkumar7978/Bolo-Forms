@@ -82,7 +82,7 @@ export const SubQuestion = ({ el, questions, setQuestions, ind }) => {
 
     // function to delete subQ
      const deleteSubQuestion=(i)=>{
-        if(i==0)
+        if(el.subQuestion.length===1)
         return
         let newSubQ = [...el.subQuestion]
         newSubQ.splice(i,1)
@@ -97,7 +97,38 @@ export const SubQuestion = ({ el, questions, setQuestions, ind }) => {
 
      //function to set correact answer
      const setCorrectAns=(index,e,i)=>{
-        
+        let subQ=[...el.subQuestion]
+        subQ[i]={
+            ...subQ[i],
+            correctAns:index 
+        }
+        let obj={
+            ...el,
+            subQuestion:[...subQ]
+        }
+        let data=[...questions]
+        data[ind]=obj
+
+        setQuestions([...data])
+     }
+
+     //function to handel option changes
+     const editDefaultOption=(event,element,index,e,i)=>{
+        let opt=[...e.option]
+        opt[index]=event.target.value
+        let subQ=[...el.subQuestion]
+        subQ[i]={
+            ...subQ[i],
+            option:[...opt]
+        }
+        let obj={
+            ...el,
+            subQuestion:[...subQ]
+        }
+        let data=[...questions]
+        data[ind]=obj
+
+        setQuestions([...data])
      }
 
     return (
@@ -124,12 +155,16 @@ export const SubQuestion = ({ el, questions, setQuestions, ind }) => {
                                             if(event.target.checked)
                                             setCorrectAns(index+1,e,i)
                                           }}
+                                          checked={e.correctAns==index+1}
                                         />
                                         <input
                                             defaultValue={element}
                                             type="text"
                                             className="border mt-2 rounded-md px-3 py-2 w-[300px] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             placeholder={`Option ${index + 1}`}
+                                            onBlur={(event)=>{
+                                                editDefaultOption(event,element,index,e,i)
+                                            }}
                                         />
                                         <svg
                                             onClick={() => {

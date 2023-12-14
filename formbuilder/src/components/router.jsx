@@ -1,8 +1,9 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
-import Allquestions from './allquestions'
-import { Home } from './home'
-import { Preview } from './preview'
+import { Home } from '../pages/home'
+import { Preview } from '../pages/preview'
+
+import Allquestions from '../pages/allquestions'
 
 export default function Router() {
   return (
