@@ -3,6 +3,7 @@ const cors = require('cors')
 const main = require('./db/config.js');
 const formModel = require('./db/form.model.js'); // model for new form
 const questionModel = require('./db/question.js');
+require('dotenv').config()
 
 
 const app = express()
